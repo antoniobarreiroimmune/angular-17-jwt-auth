@@ -9,9 +9,9 @@
     <strong>Email:</strong>
     {{ currentUser.email }}
   </p>
-  <strong>Roles:</strong>
+  <strong>Role:</strong>
   <ul>
-    @for (role of currentUser.roles; track role) {
+    @for (role of currentUser.role; track role) {
     <li>{{ role }}</li>
     }
   </ul>

@@ -6,32 +6,29 @@ const USER_KEY = 'auth-user';
   providedIn: 'root'
 })
 export class StorageService {
+
   constructor() {}
 
   clean(): void {
     window.sessionStorage.clear();
   }
 
-  public saveUser(user: any): void {
+  public saveUser(user: { token: string, name: string, email: string, role: string[] }): void {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
-  public getUser(): any {
+  public getUser(): { token: string, name: string, email: string, role: string[] } | null {
     const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return JSON.parse(user);
-    }
+    return user ? JSON.parse(user) : null;
+  }
 
-    return null;
+  public getRole(): string[] {
+    const user = this.getUser();
+    return user && user.role ? user.role : [];
   }
 
   public isLoggedIn(): boolean {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return true;
-    }
-
-    return false;
+    return this.getUser() !== null;
   }
 }

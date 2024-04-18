@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './_services/auth.service'; 
+import { AuthService } from '../_services/auth.service'; 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
 })
-export class AppComponent implements OnInit {
+export class NavbarComponent implements OnInit {
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
@@ -20,14 +20,11 @@ export class AppComponent implements OnInit {
 
   updateUserStatus(): void {
     const user = this.authService.getCurrentUser();
-    console.log('Current user:', user);  
-
     this.isLoggedIn = !!user;
     if (user) {
       this.email = user.email;
-      this.showAdminBoard = user.role === 'Guard';
+      this.showAdminBoard = user.role === 'Admin';
       this.showModeratorBoard = user.role === 'Moderator';
-      console.log('Access: Admin:', this.showAdminBoard, 'Moderator:', this.showModeratorBoard);  
     } else {
       this.email = null;
       this.showAdminBoard = false;
@@ -39,7 +36,6 @@ export class AppComponent implements OnInit {
     this.authService.logout().subscribe({
       next: _ => {
         this.updateUserStatus(); 
-        console.log('Logged out and status updated');  
       },
       error: err => console.error('Error logging out', err)
     });
