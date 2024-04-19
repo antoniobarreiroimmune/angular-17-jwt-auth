@@ -30,12 +30,14 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
+ 
   login(email: string, password: string): Observable<any> {
     return this.http.post(AUTH_API + 'login', { email, password }, httpOptions).pipe(
       map((res: any) => {
         if (res && res.token) {
           localStorage.setItem('authToken', res.token);
-          const user = jwtDecode(res.token);
+          const user = jwtDecode<{ id: string, name: string, email: string, role: string[] }>(res.token); 
+          console.log('res:', user);
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSubject.next(user);
           this.authStatusSubject.next(true);
@@ -74,6 +76,7 @@ export class AuthService {
   getCurrentUser(): any {
     return this.currentUserSubject.value;
   }
+ 
 
   getAuthStatus(): Observable<boolean> {
     return this.authStatusSubject.asObservable();

@@ -11,36 +11,8 @@ const API_URL = 'http://localhost:3001/api/';
 export class UserService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getPublicContent(): Observable<any> {
-    return this.http.get(API_URL + 'procedures', {
-      responseType: 'text',
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.authService.getToken()}`
-      })
-    });
-  }
-
-  getUserBoard(): Observable<any> {
+  getUser(): Observable<any> {
     return this.http.get(API_URL + 'user', {
-      responseType: 'text',
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.authService.getToken()}`
-      })
-    });
-  }
-  
-  getModeratorBoard(): Observable<any> {
-    return this.http.get(API_URL + 'mod', {
-      responseType: 'text',
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.authService.getToken()}`
-      })
-    });
-  }
-
-  getAdminBoard(): Observable<any> {
-    return this.http.get(API_URL + 'admin', {
-      responseType: 'text',
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.authService.getToken()}`
       })

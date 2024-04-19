@@ -28,6 +28,8 @@ export class StorageService {
     return user && user.role ? user.role : [];
   }
 
+ 
+
   public isLoggedIn(): boolean {
     return this.getUser() !== null;
   }
