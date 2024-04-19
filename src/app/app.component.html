@@ -6,11 +6,13 @@
         <li class="nav-item">
           <a routerLink="/home" class="nav-link">Home</a>
         </li>
-        <li class="nav-item" *ngIf="showAdminBoard">
-          <a routerLink="/admin" class="nav-link">Admin Board</a>
+        <li class="nav-item" *ngIf="showGuardBoard">
+          <a routerLink="/procedures" class="nav-link">Procedures</a>
         </li>
-        <li class="nav-item" *ngIf="showModeratorBoard">
-          <a routerLink="/mod" class="nav-link">Moderator Board</a>
+        <li class="nav-item" *ngIf="showGuardBoard">
+          <a routerLink="/create-procedure" class="nav-link">Nuevo Procedimiento</a>
+        <li class="nav-item" *ngIf="showPathologistBoard">
+          <a routerLink="/pathology" class="nav-link">Pathology</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn">
           <a routerLink="/user" class="nav-link">User</a>

@@ -9,8 +9,8 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
-  showAdminBoard = false;
-  showModeratorBoard = false;
+  showGuardBoard = false;
+  showPathologistBoard = false;
   email: string | null = null;
   private authSubscription!: Subscription; 
 
@@ -22,9 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
       this.isLoggedIn = !!user;
       this.email = user ? user.email : null;
-      this.showAdminBoard = user && user.role === 'Guard';
-      this.showModeratorBoard = user && user.role === 'Moderator';
-      console.log('Access: Admin:', this.showAdminBoard, 'Moderator:', this.showModeratorBoard);  
+      this.showGuardBoard = user && user.role === 'Guard';
+      this.showPathologistBoard = user && user.role === 'Pathologist'; 
     });
   }
 

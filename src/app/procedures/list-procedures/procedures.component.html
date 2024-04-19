@@ -1,0 +1,10 @@
+<div>
+    <h2>Lista de Procedimientos</h2>
+    <ul>
+      <li *ngFor="let procedure of procedures">
+        {{ procedure.name }} - {{ procedure.description }}
+      </li>
+    </ul>
+    <p *ngIf="error">{{ error }}</p>
+  </div>
+  

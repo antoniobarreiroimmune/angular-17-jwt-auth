@@ -1,0 +1,16 @@
+.create-procedure-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .form-section {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
