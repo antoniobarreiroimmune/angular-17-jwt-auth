@@ -12,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getPublicContent(): Observable<any> {
-    return this.http.get(API_URL + 'procedures/list', {
+    return this.http.get(API_URL + 'procedures', {
       responseType: 'text',
       headers: new HttpHeaders({
         'Authorization': `Bearer ${this.authService.getToken()}`

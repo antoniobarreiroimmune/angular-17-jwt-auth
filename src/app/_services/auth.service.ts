@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router'; 
 
 const AUTH_API = 'http://localhost:3001/api/auth/';
 const httpOptions = {
@@ -17,14 +18,13 @@ export class AuthService {
   public currentUser: Observable<any>;
   private authStatusSubject: BehaviorSubject<boolean>; 
 
-  constructor(private http: HttpClient) {
-    const userItem = localStorage.getItem('user'); 
-    const user = userItem ? JSON.parse(userItem) : null; 
+  constructor(private http: HttpClient, private router: Router) { 
+    const userItem = localStorage.getItem('user');
+    const user = userItem ? JSON.parse(userItem) : null;
     this.currentUserSubject = new BehaviorSubject<any>(user);
     this.currentUser = this.currentUserSubject.asObservable();
-    this.authStatusSubject = new BehaviorSubject<boolean>(!!user); 
+    this.authStatusSubject = new BehaviorSubject<boolean>(!!user);
   }
-  
 
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
@@ -35,11 +35,11 @@ export class AuthService {
       map((res: any) => {
         if (res && res.token) {
           localStorage.setItem('authToken', res.token);
-          const user = jwtDecode(res.token); 
+          const user = jwtDecode(res.token);
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSubject.next(user);
           this.authStatusSubject.next(true);
-          window.location.reload();
+          this.router.navigate(['/home']); 
         }
         return res;
       })
@@ -55,7 +55,7 @@ export class AuthService {
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
     this.authStatusSubject.next(false);
-    window.location.reload();
+    this.router.navigate(['/login']); 
     return this.http.post(AUTH_API + 'signout', {}, httpOptions);
   }
 
@@ -65,7 +65,7 @@ export class AuthService {
 
   decodeToken(token: string): any {
     try {
-      return jwtDecode(token); 
+      return jwtDecode(token);
     } catch (Error) {
       return null;
     }
@@ -79,4 +79,3 @@ export class AuthService {
     return this.authStatusSubject.asObservable();
   }
 }
-

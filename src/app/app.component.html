@@ -27,7 +27,7 @@
           <a routerLink="/profile" class="nav-link">{{ email }}</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn">
-          <a class="nav-link" (click)="logout()">LogOut</a>
+          <a routerLink="/" (click)="logout()">LogOut</a>
         </li>
       </ul>
     </div>

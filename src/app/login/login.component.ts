@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         this.isLoginFailed = false;
         this.loadUserDetails();        
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       },
       error: err => {
         this.errorMessage = err.error.message;
