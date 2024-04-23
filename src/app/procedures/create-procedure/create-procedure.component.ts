@@ -74,17 +74,26 @@ export class CreateProcedureComponent implements OnInit {
     }
   }
 
-  getDeviceLocation() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const coords = `${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)}`;
-        this.procedureForm.get('location')?.setValue(coords);
-      },
-      (error) => {
-        console.error('Error getting location', error);
-      }
-    );
-  }
+    getDeviceLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          this.procedureForm.patchValue({
+            location: `${latitude},${longitude}`
+          });
+        },
+        (error) => {
+          console.error("Error obteniendo la ubicación: ", error);
+        
+        }
+      );
+    } else {
+      
+    }
+  };
+  
+  
   
   
 }
