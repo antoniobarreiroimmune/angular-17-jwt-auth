@@ -1,59 +1,54 @@
 <div class="create-procedure-container">
-    <form [formGroup]="procedureForm" (ngSubmit)="onSubmit()">
-      <div class="form-section">
-        <mat-form-field appearance="fill">
-          <mat-label>Nombre</mat-label>
-          <input matInput formControlName="name">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Primer Apellido</mat-label>
-          <input matInput formControlName="firstName">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Segundo Apellido</mat-label>
-          <input matInput formControlName="lastName">
-        </mat-form-field>
-      </div>
-      <div class="form-section">
-        <mat-form-field appearance="fill">
-          <mat-label>DNI</mat-label>
-          <input matInput formControlName="dni">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Cuerpo Judicial</mat-label>
-          <mat-select formControlName="judicialBody">
-            <mat-option *ngFor="let option of judicialBodyOptions" [value]="option.value">
-              {{ option.viewValue }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="form-section">
-        <mat-form-field appearance="fill">
-          <mat-label>Dirección</mat-label>
-          <input matInput formControlName="address">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Localización</mat-label>
-          <input matInput formControlName="location" placeholder="Haga clic en el icono para geolocalizar" readOnly>
-          <mat-icon matSuffix (click)="getDeviceLocation()">gps_fixed</mat-icon>
-        </mat-form-field>
-      </div>
-    
-      
-      <div class="form-section">
-      
-        <mat-slide-toggle formControlName="isGenderViolence">Violencia De Género</mat-slide-toggle>
-        <mat-slide-toggle formControlName="isDomesticViolence">Violencia Doméstica</mat-slide-toggle>
-      </div>
-      <div class="form-section">
-        
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Informe de Procedimiento</mat-label>
-          <textarea matInput formControlName="procedureReport"></textarea>
-        </mat-form-field>
-      </div>
-      <button mat-raised-button color="primary" type="submit">Crear Procedimiento</button>
-    </form>
-  </div>
-  
+  <form [formGroup]="procedureForm" (ngSubmit)="onSubmit()">
+    <div class="form-section">
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Primer Apellido</mat-label>
+        <input matInput formControlName="firstName">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Segundo Apellido</mat-label>
+        <input matInput formControlName="lastName">
+      </mat-form-field>
+    </div>
+    <div class="form-section">
+      <mat-form-field appearance="fill">
+        <mat-label>DNI</mat-label>
+        <input matInput formControlName="dni">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Cuerpo Judicial</mat-label>
+        <mat-select formControlName="judicialBody">
+          <mat-option *ngFor="let option of judicialBodyOptions" [value]="option.value">
+            {{ option.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-section">
+      <mat-form-field appearance="fill">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="address">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Localización</mat-label>
+        <input matInput formControlName="location" placeholder="Haga clic en el icono para geolocalizar" readOnly>
+        <mat-icon matSuffix (click)="getDeviceLocation()">gps_fixed</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="form-section">
+      <mat-slide-toggle formControlName="isGenderViolence">Violencia De Género</mat-slide-toggle>
+      <mat-slide-toggle formControlName="isDomesticViolence">Violencia Doméstica</mat-slide-toggle>
+    </div>
+    <div class="form-section">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Informe de Procedimiento</mat-label>
+        <textarea matInput formControlName="procedureReport"></textarea>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" type="submit">Crear Procedimiento</button>
+  </form>
+</div>

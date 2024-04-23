@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service'; 
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -11,20 +12,23 @@ export class NavbarComponent implements OnInit {
   showAdminBoard = false;
   showModeratorBoard = false;
   email: string | null = null;
+  private userSubscription!: Subscription; 
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.updateUserStatus();
+    this.userSubscription = this.authService.currentUser.subscribe(user => {
+      this.updateUserStatus(user);
+    });
   }
 
-  updateUserStatus(): void {
-    const user = this.authService.getCurrentUser();
+  updateUserStatus(user: any): void {
     this.isLoggedIn = !!user;
     if (user) {
       this.email = user.email;
-      this.showAdminBoard = user.role === 'Guard';
-      this.showModeratorBoard = user.role === 'Pathologist';
+     
+      this.showAdminBoard = user.role.includes('Guard');
+      this.showModeratorBoard = user.role.includes('Pathologist');
     } else {
       this.email = null;
       this.showAdminBoard = false;
@@ -35,9 +39,15 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     this.authService.logout().subscribe({
       next: _ => {
-        this.updateUserStatus(); 
+    
       },
       error: err => console.error('Error logging out', err)
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();  
+    }
   }
 }

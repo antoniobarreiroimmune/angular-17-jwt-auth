@@ -17,26 +17,39 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.currentUser.subscribe(user => {
-      console.log('Current user:', user);  
+    
+    this.authSubscription = this.authService.currentUser.subscribe({
+      next: (user: any) => {
+        console.log('User data updated from server:', user);
 
-      this.isLoggedIn = !!user;
-      this.email = user ? user.email : null;
-      this.showGuardBoard = user && user.role === 'Guard';
-      this.showPathologistBoard = user && user.role === 'Pathologist'; 
+        
+        this.isLoggedIn = !!user;
+        this.email = user ? user.email : null;
+        this.showGuardBoard = user && user.role && user.role.includes('Guard');
+        this.showPathologistBoard = user && user.role && user.role.includes('Pathologist');
+      },
+      error: (error: any) => {
+        console.error('Error fetching user data:', error);
+      }
     });
   }
 
   logout(): void {
     this.authService.logout().subscribe({
       next: _ => {
-        console.log('Logged out and status updated');  
+        console.log('Logged out and status updated');
+        this.isLoggedIn = false;
+        this.email = null;
+        this.showGuardBoard = false;
+        this.showPathologistBoard = false;
       },
-      error: err => console.error('Error logging out', err)
+      error: (err: any) => console.error('Error logging out', err)
     });
   }
 
   ngOnDestroy(): void {
-    this.authSubscription.unsubscribe();
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 }

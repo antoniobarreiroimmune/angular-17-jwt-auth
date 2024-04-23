@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ProcedureService } from '../../_services/procedure.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../_services/auth.service';  
+import { ProcedureService } from '../../_services/procedure.service';
+import { AuthService } from '../../_services/auth.service';
 
 @Component({
   selector: 'app-create-procedure',
@@ -20,7 +20,7 @@ export class CreateProcedureComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private procedureService: ProcedureService,
-    private authService: AuthService,  
+    private authService: AuthService,
     private router: Router
   ) {
     this.procedureForm = this.fb.group({
@@ -34,24 +34,44 @@ export class CreateProcedureComponent implements OnInit {
       isGenderViolence: [false],
       isDomesticViolence: [false],
       judicialBody: [''],
-      procedureReport: [''],
+      procedureReport: ['']
     });
   }
 
   ngOnInit(): void {
-    this.userData = this.authService.getCurrentUser();  
-    console.log('UserData from state:', this.userData);
+    this.authService.currentUser.subscribe({
+      next: (user) => {
+        this.userData = user;
+        console.log('UserData from server:', this.userData);
+      },
+      error: (error) => {
+        console.error('Error fetching user data:', error);
+      }
+    });
   }
 
   onSubmit() {
-    const completeProcedureData = {
-      ...this.procedureForm.value,
-      guardInfo: this.userData
-    };
-    this.procedureService.createProcedure(completeProcedureData).subscribe({
-      next: () => this.router.navigate(['/procedures']),
-      error: error => console.error('Error creating procedure:', error)
-    });
+    if (this.procedureForm.valid) {
+      const { _id: guardId, name, firstName, lastName, email, role } = this.userData || {};
+      const guardInfo = { guardId, name, firstName, lastName, email, role };
+
+      const completeProcedureData = {
+        ...this.procedureForm.value,
+        guardInfo
+      };
+
+      this.procedureService.createProcedure(completeProcedureData).subscribe({
+        next: () => {
+          console.log('Procedure created successfully');
+          this.router.navigate(['/procedures']);
+        },
+        error: (error) => {
+          console.error('Error creating procedure:', error);
+        }
+      });
+    } else {
+      console.log('Invalid form data');
+    }
   }
 
   getDeviceLocation() {
@@ -65,4 +85,6 @@ export class CreateProcedureComponent implements OnInit {
       }
     );
   }
+  
+  
 }

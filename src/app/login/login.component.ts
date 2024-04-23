@@ -12,44 +12,29 @@ export class LoginComponent implements OnInit {
     email: null,
     password: null
   };
-  isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
-  role: string[] = [];
+  isLoggedIn = false;  
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.authService.getAuthStatus().subscribe((status: boolean) => {
-      this.isLoggedIn = status;
-      if (status) {
-        this.loadUserDetails();
+    this.authService.getAuthStatus().subscribe((isLoggedIn: boolean) => {
+      this.isLoggedIn = isLoggedIn; 
+      if (isLoggedIn) {
+        this.router.navigate(['/home']);
       }
     });
   }
 
-  loadUserDetails() {
-    const user = this.authService.getCurrentUser();
-    if (user) {
-      this.role = user.role;
-  
-    } else {
-      this.role = [];
-
-    }
-  }
-
   onSubmit(): void {
     const { email, password } = this.form;
-
     this.authService.login(email, password).subscribe({
-      next: data => {
-        this.isLoggedIn = true;
+      next: (data: any) => {
         this.isLoginFailed = false;
-        this.loadUserDetails();        
         this.router.navigate(['/home']);
       },
-      error: err => {
+      error: (err: any) => {
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;
       }

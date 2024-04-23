@@ -23,6 +23,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
+import { ShowPathologyComponent } from './pathology/show-pathology/show-pathology.component';
+import { UpdatePathologyComponent } from './pathology/update-pathology/update-pathology.component';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { MatOptionModule } from '@angular/material/core';
     CreateProcedureComponent,
     UpdateProcedureComponent,
     ShowProcedureComponent,
-    HomeComponent
+    HomeComponent,
+    ShowPathologyComponent,
+    UpdatePathologyComponent
   ],
   imports: [
     BrowserModule,
